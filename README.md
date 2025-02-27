@@ -12,7 +12,7 @@ This guide will walk you through setting up ORB-SLAM3 in a Docker container, run
 > After setup, you can attach to the running container and compile code using the ORB-SLAM3 library. This setup is designed for development purposes and testing different configurations.
 
 > [!important]
-> Communication between ORB-SLAM3 is done with sockets in this example. Real worl applications uses ROS communication protocol which should be explored further.
+> Communication between ORB-SLAM3 is done with sockets in this example. Real world applications usually use ROS communication protocol.
 
 ## Prerequisites
 
