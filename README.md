@@ -1,30 +1,38 @@
-# ORB-SLAM3 Docker Setup (CUDA + X11(GUI) Support + Ubuntu 22.04)
+# ORB-SLAM3 Docker Setup
+
+Docker container with **CUDA + X11(GUI) Support + Ubuntu 22.04**
+
+| ORB-SLAM3 in Action |
+| :---: |
+| <img src="/resources/image.png" width="100%" alt="ORB-SLAM3 running with EuRoC dataset"> |
+| **ORB-SLAM3 running with GPU acceleration and X11 forwarding** |
 
 This guide will walk you through setting up ORB-SLAM3 in a Docker container, running it with a EuRoC dataset, and testing it with different configurations like Monocular, Monocular-Inertial, and Stereo.
 
-After setting up the Docker container, you can run the ORB-SLAM3 examples with GPU acceleration and X11 forwarding for graphical output that will look like this:
-
-![alt text](/resources/image.png)
-
-You will also have ability to attach to a running container and compile code using ORB SLAM 3 library. This setup is more for development purposes and testing different configurations of ORB-SLAM3.
+> [!note]
+> After setup, you can attach to the running container and compile code using the ORB-SLAM3 library. This setup is designed for development purposes and testing different configurations.
 
 ## Prerequisites
 
 - Docker installed
 - NVIDIA GPU and drivers with CUDA support for GPU acceleration
-- X11 server running for displaying graphical applications (e.g., `VcXsrv` for Windows). Material for setting up X11 server on Windows is also included below.
+- X11 server running for displaying graphical applications
+
+> [!tip]
+> For Windows users, you can use `VcXsrv` as your X11 server. Setup instructions are provided in [Step 5](#step-5-setting-up-x11-server-on-windows).
 
 ## Getting Started
 
 ### Step 1: Running the Docker Container
 
-First you need to build the Docker image. You can do this by running the following command in the root directory of this repository:
+First, build the Docker image:
 
 ```bash
 docker build -t orb_slam3:latest .
 ```
 
-To run the ORB-SLAM3 Docker container with GPU support and X11 forwarding for graphical output:
+> [!important]
+> Run the container with GPU support and X11 forwarding for graphical output:
 
 ```bash
 docker run -it --gpus all --env="DISPLAY" \
@@ -36,7 +44,7 @@ docker run -it --gpus all --env="DISPLAY" \
 
 ### Step 2: Dataset Setup
 
-After setting it up container and starting it, you need to attach to it (quick guide how to do it is below). Navigate to the ORB-SLAM3 directory and download the EuRoC MAV dataset. This dataset is used for testing ORB-SLAM3 with different configurations.
+Inside the container, download and set up the EuRoC MAV dataset:
 
 ```bash
 cd /opt/orb_slam3
@@ -55,23 +63,24 @@ unzip MH_01_easy.zip -d MH01/
 
 ### Step 3: Installing Additional Packages
 
-To run graphical applications inside the container (e.g., `xclock` for testing display):
+To run graphical applications inside the container:
 
 ```bash
 apt-get update && apt-get install -y x11-apps
 ```
 
-Test the X11 setup by running:
+Test the X11 setup:
 
 ```bash
 xclock
 ```
 
-You should see the clock displayed on your X11 server.
+> [!check]
+> You should see a clock window appear on your screen. If it works, your X11 forwarding is configured correctly.
 
 ### Step 4: Running ORB-SLAM3 Examples
 
-To run different ORB-SLAM3 configurations, use the following commands inside ORB-SLAM3 directory (which is located inside `/opt` inside the container):
+Navigate to the ORB-SLAM3 directory and run the examples:
 
 #### Stereo Example
 
@@ -82,57 +91,38 @@ To run different ORB-SLAM3 configurations, use the following commands inside ORB
   ./Examples/Stereo/EuRoC_TimeStamps/MH01.txt dataset-MH01_stereo
 ```
 
+> [!tip]
+> You can also run other configurations like Monocular and Monocular-Inertial by using the respective executables in the Examples directory.
+
 ### Step 5: Setting Up X11 Server on Windows
 
-If you're running this on Windows, you can set up an X11 server using `VcXsrv`. Download and install it from the following link:
-
-- [VcXsrv SourceForge](https://sourceforge.net/projects/vcxsrv/)
-
-Ensure that `DISPLAY` is correctly set in your Docker run command to match your X11 server configuration. It is also recommended to disable access control on the X11 server to avoid permission issues:
-
-If using win app you just need to check the box "Disable access control" in the VcXsrv configuration.
-
-**Alternatively:**
-If using linux based environment, you can use the following commands to grant access to the X11 server:
-
-```bash
-export DISPLAY=host.docker.internal:0
-xhost +
-```
-
-If you want to test the X11 setup, you can run the following command inside the container:
-
-```bash
-xclock
-```
-
-This should display a clock on your X11 server. If you see the clock, the X11 setup is working correctly. If not, check your X11 server configuration and Docker run command.
+| Platform | Setup Instructions |
+| :---: | :--- |
+| **Windows** | 1. Download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)<br>2. During configuration, check the box "Disable access control"<br>3. Set `DISPLAY` environment variable in your Docker run command |
+| **Linux** | Run these commands:<br>```bash<br>export DISPLAY=host.docker.internal:0<br>xhost +<br>``` |
 
 ## Attaching to a Running Container
 
-If you want to attach to a running container, you can use the following command:
+There are two ways to attach to your running container:
+
+### Method 1: Using Docker CLI
 
 ```bash
 docker exec -it orb_slam3_container bash
 ```
 
-This will open a new shell inside the running container.
+### Method 2: Using VS Code
 
-**Alternatively:**
-You could use vscode to attach to the container, you just need to install the extension "Dev - Containers" and open the project folder in the container.
+| VS Code Integration |
+| :---: |
+| <img src="resources/image-ext.png" width="100%" alt="VS Code Extension"> |
+| **Attaching to the container using VS Code's Dev Containers extension** |
 
-![alt text](resources/image-ext.png)
+1. Install the "Dev - Containers" extension
+2. Press `Ctrl + Shift + P`
+3. Select "Remote-Containers: Attach to Running Container"
+4. Choose the `orb_slam3_container`
+5. Select `/opt/` as the workspace folder
 
-If you want to attach to a running container, you can use the following command:
-
-```bash
-ctrl + shift + p
-Remote-Containers: Attach to Running Container
-```
-
-Select `/opt/` as the workspace folder. Later if you want to change the workspace folder you need to change configuration with the following steps:
-
-```bash
-ctrl + shift + p
-Remote-Containers: Open Container Configuration File
-```
+> [!tip]
+> To change the workspace folder later, press `Ctrl + Shift + P` and select "Remote-Containers: Open Container Configuration File"
