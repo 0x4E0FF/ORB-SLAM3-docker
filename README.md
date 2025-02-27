@@ -5,12 +5,14 @@ Docker container with **CUDA + X11(GUI) Support + Ubuntu 22.04**
 | ORB-SLAM3 in Action |
 | :---: |
 | <img src="/resources/image.png" width="100%" alt="ORB-SLAM3 running with EuRoC dataset"> |
-| **ORB-SLAM3 running with GPU acceleration and X11 forwarding** |
 
 This guide will walk you through setting up ORB-SLAM3 in a Docker container, running it with a EuRoC dataset, and testing it with different configurations like Monocular, Monocular-Inertial, and Stereo.
 
 > [!note]
 > After setup, you can attach to the running container and compile code using the ORB-SLAM3 library. This setup is designed for development purposes and testing different configurations.
+
+> [!important]
+> Communication between ORB-SLAM3 is done with sockets in this example. Real worl applications uses ROS communication protocol which should be explored further.
 
 ## Prerequisites
 
