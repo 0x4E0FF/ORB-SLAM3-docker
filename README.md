@@ -2,7 +2,7 @@
 
 Docker container with **CUDA + X11(GUI) Support + Ubuntu 22.04**
 
-| ORB-SLAM3 in Action |
+| ORB-SLAM3 Dockerized |
 | :---: |
 | <img src="/resources/image.png" width="100%" alt="ORB-SLAM3 running with EuRoC dataset"> |
 
@@ -115,10 +115,7 @@ docker exec -it orb_slam3_container bash
 
 ### Method 2: Using VS Code
 
-| VS Code Integration |
-| :---: |
-| <img src="resources/image-ext.png" width="100%" alt="VS Code Extension"> |
-| **Attaching to the container using VS Code's Dev Containers extension** |
+ <img src="resources/image-ext.png" width="100%" alt="VS Code Extension">
 
 1. Install the "Dev - Containers" extension
 2. Press `Ctrl + Shift + P`
